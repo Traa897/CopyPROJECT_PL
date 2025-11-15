@@ -5,7 +5,7 @@ require_once 'models/QueryBuilder.php';
 
 <div class="container">
     <div class="header-section">
-        <h1>📊 Dashboard P!X</h1>
+        <h1>Dashboard P!X</h1>
     </div>
 
     <div class="stats-grid">
@@ -22,7 +22,6 @@ require_once 'models/QueryBuilder.php';
         ?>
 
         <div class="stat-card">
-            <div class="stat-icon">🎬</div>
             <div class="stat-info">
                 <h3><?php echo $totalFilms; ?></h3>
                 <p>Total Film</p>
@@ -30,7 +29,6 @@ require_once 'models/QueryBuilder.php';
         </div>
 
         <div class="stat-card">
-            <div class="stat-icon">👥</div>
             <div class="stat-info">
                 <h3><?php echo $totalAktors; ?></h3>
                 <p>Total Aktor</p>
@@ -38,7 +36,6 @@ require_once 'models/QueryBuilder.php';
         </div>
 
         <div class="stat-card">
-            <div class="stat-icon">🏢</div>
             <div class="stat-info">
                 <h3><?php echo $totalBioskops; ?></h3>
                 <p>Total Bioskop</p>
@@ -46,7 +43,6 @@ require_once 'models/QueryBuilder.php';
         </div>
 
         <div class="stat-card">
-            <div class="stat-icon">📅</div>
             <div class="stat-info">
                 <h3><?php echo $totalJadwals; ?></h3>
                 <p>Jadwal Tayang</p>
@@ -54,7 +50,6 @@ require_once 'models/QueryBuilder.php';
         </div>
 
         <div class="stat-card">
-            <div class="stat-icon">⭐</div>
             <div class="stat-info">
                 <h3><?php echo number_format($avgRating, 1); ?></h3>
                 <p>Rating Rata-rata</p>
@@ -62,7 +57,6 @@ require_once 'models/QueryBuilder.php';
         </div>
 
         <div class="stat-card">
-            <div class="stat-icon">🎭</div>
             <div class="stat-info">
                 <h3><?php echo $totalGenres; ?></h3>
                 <p>Genre Film</p>
@@ -70,9 +64,9 @@ require_once 'models/QueryBuilder.php';
         </div>
     </div>
 
-    <!-- Film Terbaru -->
+    <!-- Film Rating Tertinggi -->
     <div class="section-header" style="margin-top: 40px;">
-        <h2>🆕 Film Rating Tertinggi</h2>
+        <h2>Film Rating Tertinggi</h2>
         <a href="index.php?module=film" class="btn btn-secondary">Lihat Semua</a>
     </div>
 
@@ -115,7 +109,7 @@ require_once 'models/QueryBuilder.php';
 
     <!-- Genre Distribution -->
     <div class="section-header" style="margin-top: 40px;">
-        <h2>🎭 Film per Genre</h2>
+        <h2>Distribusi Film per Genre</h2>
     </div>
 
     <?php
@@ -125,7 +119,7 @@ require_once 'models/QueryBuilder.php';
     <div class="stats-grid">
         <?php foreach($genreStats as $genre): ?>
             <div class="stat-card">
-                <div class="stat-icon">🎭</div>
+                <div class="stat-icon"></div>
                 <div class="stat-info">
                     <h3><?php echo $genre['total_film']; ?></h3>
                     <p><?php echo htmlspecialchars($genre['nama_genre']); ?></p>

@@ -33,7 +33,7 @@
                 </div>
 
                 <div class="info-item">
-                    <strong>📅 Tahun:</strong>
+                    <strong>📅 Tahun Rilis:</strong>
                     <p><?php echo $filmData['tahun_rilis']; ?></p>
                 </div>
 
@@ -49,18 +49,21 @@
 
                 <div class="info-item" style="grid-column: 1 / -1;">
                     <strong>👥 Aktor:</strong>
-                    <p><?php echo htmlspecialchars($filmData['daftar_aktor'] ?? 'Tidak ada aktor'); ?></p>
+                    <p><?php echo htmlspecialchars($filmData['daftar_aktor'] ?? 'Belum ada aktor'); ?></p>
                 </div>
             </div>
 
             <div class="synopsis-section">
                 <strong>📝 Sinopsis:</strong>
-                <p><?php echo nl2br(htmlspecialchars($filmData['sipnosis'])); ?></p>
+                <p><?php echo nl2br(htmlspecialchars($filmData['sipnosis'] ?? 'Tidak ada sinopsis')); ?></p>
             </div>
 
             <div class="detail-actions">
-                <a href="index.php?module=film&action=edit&id=<?php echo $filmData['id_film']; ?>" class="btn btn-warning">✏️ Edit</a>
-                <a href="index.php?module=film&action=delete&id=<?php echo $filmData['id_film']; ?>" class="btn btn-danger" onclick="return confirm('Hapus film ini?')">🗑️ Hapus</a>
+                <a href="index.php?module=film&action=edit&id=<?php echo $filmData['id_film']; ?>" 
+                   class="btn btn-warning">✏️ Edit Film</a>
+                <a href="index.php?module=film&action=delete&id=<?php echo $filmData['id_film']; ?>" 
+                   class="btn btn-danger" 
+                   onclick="return confirm('Apakah Anda yakin ingin menghapus film ini?')">🗑️ Hapus Film</a>
             </div>
         </div>
     </div>

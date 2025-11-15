@@ -68,21 +68,12 @@
             </div>
 
             <div class="form-group">
-                <label>Pilih Aktor (Multiple)</label>
-                <div style="max-height: 200px; overflow-y: auto; border: 2px solid #e0e0e0; border-radius: 5px; padding: 15px;">
-                    <?php foreach($aktors as $aktor): ?>
-                        <div style="margin-bottom: 15px; padding: 10px; background: #f8f9fa; border-radius: 5px;">
-                            <label style="display: flex; align-items: center; cursor: pointer;">
-                                <input type="checkbox" name="actors[]" value="<?php echo $aktor['id_aktor']; ?>" 
-                                       style="margin-right: 10px;">
-                                <span style="font-weight: 600;"><?php echo htmlspecialchars($aktor['nama_aktor']); ?></span>
-                            </label>
-                            <input type="text" name="peran_<?php echo $aktor['id_aktor']; ?>" 
-                                   placeholder="Peran (opsional)" 
-                                   style="width: 100%; padding: 5px; margin-top: 5px; border: 1px solid #ddd; border-radius: 3px;">
-                        </div>
-                    <?php endforeach; ?>
-                </div>
+                <label for="aktor_names">Nama Aktor (Multiple - Pisahkan dengan koma)</label>
+                <textarea id="aktor_names" name="aktor_names" rows="3" 
+                          placeholder="Contoh: Iko Uwais, Reza Rahadian, Tara Basro"></textarea>
+                <small style="color: #666; display: block; margin-top: 5px;">
+                    💡 Masukkan nama aktor yang dibintangi, pisahkan dengan koma (,)
+                </small>
             </div>
 
             <div class="form-actions">

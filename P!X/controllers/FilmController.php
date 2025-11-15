@@ -19,12 +19,7 @@ class FilmController {
         $this->aktor = new Aktor($this->db);
     }
 
-    // DASHBOARD
-    public function dashboard() {
-        require_once 'views/dashboard.php';
-    }
-
-    // INDEX - List all films
+    // INDEX - List all films (Welcome Page)
     public function index() {
         $search = isset($_GET['search']) ? $_GET['search'] : '';
         $genre_filter = isset($_GET['genre']) ? $_GET['genre'] : '';
@@ -82,16 +77,39 @@ class FilmController {
                 // Get last inserted ID
                 $last_id = $this->db->lastInsertId();
                 
-                // Add actors if selected
-                if(isset($_POST['actors']) && is_array($_POST['actors'])) {
-                    foreach($_POST['actors'] as $id_aktor) {
-                        $peran = isset($_POST['peran_'.$id_aktor]) ? $_POST['peran_'.$id_aktor] : '';
-                        $query = "INSERT INTO Film_Aktor (id_film, id_aktor, peran) VALUES (:id_film, :id_aktor, :peran)";
-                        $stmt = $this->db->prepare($query);
-                        $stmt->bindParam(':id_film', $last_id);
-                        $stmt->bindParam(':id_aktor', $id_aktor);
-                        $stmt->bindParam(':peran', $peran);
-                        $stmt->execute();
+                // Process actor names (comma separated)
+                if(isset($_POST['aktor_names']) && !empty($_POST['aktor_names'])) {
+                    $aktor_names = explode(',', $_POST['aktor_names']);
+                    
+                    foreach($aktor_names as $nama_aktor) {
+                        $nama_aktor = trim($nama_aktor);
+                        if(!empty($nama_aktor)) {
+                            // Check if actor exists
+                            $query = "SELECT id_aktor FROM Aktor WHERE nama_aktor = :nama_aktor";
+                            $stmt = $this->db->prepare($query);
+                            $stmt->bindParam(':nama_aktor', $nama_aktor);
+                            $stmt->execute();
+                            $existing_aktor = $stmt->fetch(PDO::FETCH_ASSOC);
+                            
+                            if($existing_aktor) {
+                                // Actor exists, use existing ID
+                                $id_aktor = $existing_aktor['id_aktor'];
+                            } else {
+                                // Create new actor
+                                $query = "INSERT INTO Aktor (nama_aktor, negara_asal) VALUES (:nama_aktor, 'Indonesia')";
+                                $stmt = $this->db->prepare($query);
+                                $stmt->bindParam(':nama_aktor', $nama_aktor);
+                                $stmt->execute();
+                                $id_aktor = $this->db->lastInsertId();
+                            }
+                            
+                            // Link film with actor
+                            $query = "INSERT INTO Film_Aktor (id_film, id_aktor) VALUES (:id_film, :id_aktor)";
+                            $stmt = $this->db->prepare($query);
+                            $stmt->bindParam(':id_film', $last_id);
+                            $stmt->bindParam(':id_aktor', $id_aktor);
+                            $stmt->execute();
+                        }
                     }
                 }
                 
@@ -140,21 +158,45 @@ class FilmController {
             $this->film->id_genre = $_POST['id_genre'];
 
             if($this->film->update()) {
-                // Update actors - delete old, insert new
+                // Delete old actor relations
                 $query = "DELETE FROM Film_Aktor WHERE id_film = :id_film";
                 $stmt = $this->db->prepare($query);
                 $stmt->bindParam(':id_film', $this->film->id_film);
                 $stmt->execute();
                 
-                if(isset($_POST['actors']) && is_array($_POST['actors'])) {
-                    foreach($_POST['actors'] as $id_aktor) {
-                        $peran = isset($_POST['peran_'.$id_aktor]) ? $_POST['peran_'.$id_aktor] : '';
-                        $query = "INSERT INTO Film_Aktor (id_film, id_aktor, peran) VALUES (:id_film, :id_aktor, :peran)";
-                        $stmt = $this->db->prepare($query);
-                        $stmt->bindParam(':id_film', $this->film->id_film);
-                        $stmt->bindParam(':id_aktor', $id_aktor);
-                        $stmt->bindParam(':peran', $peran);
-                        $stmt->execute();
+                // Process actor names (comma separated)
+                if(isset($_POST['aktor_names']) && !empty($_POST['aktor_names'])) {
+                    $aktor_names = explode(',', $_POST['aktor_names']);
+                    
+                    foreach($aktor_names as $nama_aktor) {
+                        $nama_aktor = trim($nama_aktor);
+                        if(!empty($nama_aktor)) {
+                            // Check if actor exists
+                            $query = "SELECT id_aktor FROM Aktor WHERE nama_aktor = :nama_aktor";
+                            $stmt = $this->db->prepare($query);
+                            $stmt->bindParam(':nama_aktor', $nama_aktor);
+                            $stmt->execute();
+                            $existing_aktor = $stmt->fetch(PDO::FETCH_ASSOC);
+                            
+                            if($existing_aktor) {
+                                // Actor exists, use existing ID
+                                $id_aktor = $existing_aktor['id_aktor'];
+                            } else {
+                                // Create new actor
+                                $query = "INSERT INTO Aktor (nama_aktor, negara_asal) VALUES (:nama_aktor, 'Indonesia')";
+                                $stmt = $this->db->prepare($query);
+                                $stmt->bindParam(':nama_aktor', $nama_aktor);
+                                $stmt->execute();
+                                $id_aktor = $this->db->lastInsertId();
+                            }
+                            
+                            // Link film with actor
+                            $query = "INSERT INTO Film_Aktor (id_film, id_aktor) VALUES (:id_film, :id_aktor)";
+                            $stmt = $this->db->prepare($query);
+                            $stmt->bindParam(':id_film', $this->film->id_film);
+                            $stmt->bindParam(':id_aktor', $id_aktor);
+                            $stmt->execute();
+                        }
                     }
                 }
                 

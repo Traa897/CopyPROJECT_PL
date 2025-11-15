@@ -1,5 +1,5 @@
 <?php
-// index.php - Main Router
+// index.php - Main Router (Film sebagai Welcome Page)
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
@@ -10,7 +10,7 @@ require_once __DIR__ . '/controllers/BioskopController.php';
 require_once __DIR__ . '/controllers/JadwalController.php';
 
 // Get parameters
-$module = isset($_GET['module']) ? $_GET['module'] : 'film';
+$module = isset($_GET['module']) ? $_GET['module'] : 'film'; // Default: film
 $action = isset($_GET['action']) ? $_GET['action'] : 'index';
 
 // Route berdasarkan module
@@ -27,10 +27,6 @@ switch($module) {
     case 'jadwal':
         $controller = new JadwalController();
         break;
-    case 'dashboard':
-        $controller = new FilmController();
-        $controller->dashboard();
-        exit();
     default:
         $controller = new FilmController();
 }

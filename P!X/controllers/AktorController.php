@@ -27,21 +27,6 @@ class AktorController {
         require_once 'views/aktor/index.php';
     }
 
-    // SHOW - Detail actor with films
-    public function show() {
-        if(isset($_GET['id'])) {
-            $this->aktor->id_aktor = $_GET['id'];
-            $aktorData = $this->aktor->getAktorWithFilms($_GET['id']);
-            
-            if($aktorData) {
-                require_once 'views/aktor/show.php';
-            } else {
-                header("Location: index.php?module=aktor&error=Aktor tidak ditemukan");
-                exit();
-            }
-        }
-    }
-
     // CREATE - Show form
     public function create() {
         require_once 'views/aktor/create.php';
